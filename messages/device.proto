@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+option go_package = "github.com/roderm/audio-panel-protobuf/go/msg/device";
+
+import "messages/basetypes.proto";
+
+message Box {
+
+}
+
+message Device {
+    string Identifier = 1;
+    string Name = 2;
+    repeated Item Items = 10;
+}
+message Item {
+    string Identifier = 1;
+    string Name = 2;
+    string Type = 3;
+    repeated Property Properties = 10;
+}
+message Property {
+    string Name = 1;
+    oneof Value {
+        bool Boolean = 2;
+        int64 Number = 3;
+        float Decimal = 4;
+        string Text = 5;
+        ValueList List = 6;
+    }
+}
+
+message PropertyUpdate {
+    string BoxIdentifier = 1;
+    string DeviceIdentifier = 2;
+    string ItemIdentifier = 3;
+    Property State = 4;
+}
+message StateUpdate {
+    PropertyUpdate Prop = 1;
+}
+message UpdateReq {
+    
+}
+
+message UpdateRes {
+    
+}
+
+message Update {
+    
+}

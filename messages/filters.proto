@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option go_package = "github.com/roderm/audio-panel-protobuf/go/msg/filters";
+
+import "messages/basetypes.proto";
+
+message BoxFilter {
+    repeated string BoxIDs = 2;
+}
+
+message DeviceFilter {
+    repeated string BoxIDs = 2;
+    repeated string DeviceIDs = 3;
+}
+
+message UpdateFilter {
+    repeated UpdateType Types = 1;
+    repeated string BoxIDs = 2;
+    repeated string DeviceIDs = 3;
+}

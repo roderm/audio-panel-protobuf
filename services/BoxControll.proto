@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+import "messages/device.proto";
+import "messages/filters.proto";
+
+option go_package = "github.com/roderm/audio-panel-protobuf/go/box_controll";
+
+service BoxControll {
+    rpc GetBoxes(BoxFilter) returns(stream Box);
+    rpc GetDevices(DeviceFilter) returns(stream Device);
+    rpc OnUpdate(UpdateFilter) returns(stream Update);
+    rpc StateUpdate(UpdateReq) returns(UpdateRes);
+}
