@@ -2,7 +2,7 @@ syntax = "proto3";
 
 option go_package = "github.com/roderm/audio-panel-protobuf/go/msg/device";
 option java_package = "com.xiexie.roman.audiopanel";
-option java_outer_classname = "Device";
+option java_outer_classname = "Devices";
 
 import "messages/basetypes.proto";
 
