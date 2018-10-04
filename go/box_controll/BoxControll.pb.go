@@ -6,7 +6,8 @@ package box_controll // import "github.com/roderm/audio-panel-protobuf/go/box_co
 import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"
 import math "math"
-import msg "github.com/roderm/audio-panel-protobuf/go/msg"
+import device "github.com/roderm/audio-panel-protobuf/go/msg/device"
+import filters "github.com/roderm/audio-panel-protobuf/go/msg/filters"
 
 import (
 	context "golang.org/x/net/context"
@@ -35,10 +36,10 @@ const _ = grpc.SupportPackageIsVersion4
 // Client API for BoxControll service
 
 type BoxControllClient interface {
-	GetBoxes(ctx context.Context, in *msg.BoxFilter, opts ...grpc.CallOption) (BoxControll_GetBoxesClient, error)
-	GetDevices(ctx context.Context, in *msg.DeviceFilter, opts ...grpc.CallOption) (BoxControll_GetDevicesClient, error)
-	OnUpdate(ctx context.Context, in *msg.UpdateFilter, opts ...grpc.CallOption) (BoxControll_OnUpdateClient, error)
-	StateUpdate(ctx context.Context, in *msg.UpdateReq, opts ...grpc.CallOption) (*msg.UpdateRes, error)
+	GetBoxes(ctx context.Context, in *filters.BoxFilter, opts ...grpc.CallOption) (BoxControll_GetBoxesClient, error)
+	GetDevices(ctx context.Context, in *filters.DeviceFilter, opts ...grpc.CallOption) (BoxControll_GetDevicesClient, error)
+	OnUpdate(ctx context.Context, in *filters.UpdateFilter, opts ...grpc.CallOption) (BoxControll_OnUpdateClient, error)
+	StateUpdate(ctx context.Context, in *device.UpdateReq, opts ...grpc.CallOption) (*device.UpdateRes, error)
 }
 
 type boxControllClient struct {
@@ -49,7 +50,7 @@ func NewBoxControllClient(cc *grpc.ClientConn) BoxControllClient {
 	return &boxControllClient{cc}
 }
 
-func (c *boxControllClient) GetBoxes(ctx context.Context, in *msg.BoxFilter, opts ...grpc.CallOption) (BoxControll_GetBoxesClient, error) {
+func (c *boxControllClient) GetBoxes(ctx context.Context, in *filters.BoxFilter, opts ...grpc.CallOption) (BoxControll_GetBoxesClient, error) {
 	stream, err := grpc.NewClientStream(ctx, &_BoxControll_serviceDesc.Streams[0], c.cc, "/BoxControll/GetBoxes", opts...)
 	if err != nil {
 		return nil, err
@@ -65,7 +66,7 @@ func (c *boxControllClient) GetBoxes(ctx context.Context, in *msg.BoxFilter, opt
 }
 
 type BoxControll_GetBoxesClient interface {
-	Recv() (*msg.Box, error)
+	Recv() (*device.Box, error)
 	grpc.ClientStream
 }
 
@@ -73,15 +74,15 @@ type boxControllGetBoxesClient struct {
 	grpc.ClientStream
 }
 
-func (x *boxControllGetBoxesClient) Recv() (*msg.Box, error) {
-	m := new(msg.Box)
+func (x *boxControllGetBoxesClient) Recv() (*device.Box, error) {
+	m := new(device.Box)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
 	return m, nil
 }
 
-func (c *boxControllClient) GetDevices(ctx context.Context, in *msg.DeviceFilter, opts ...grpc.CallOption) (BoxControll_GetDevicesClient, error) {
+func (c *boxControllClient) GetDevices(ctx context.Context, in *filters.DeviceFilter, opts ...grpc.CallOption) (BoxControll_GetDevicesClient, error) {
 	stream, err := grpc.NewClientStream(ctx, &_BoxControll_serviceDesc.Streams[1], c.cc, "/BoxControll/GetDevices", opts...)
 	if err != nil {
 		return nil, err
@@ -97,7 +98,7 @@ func (c *boxControllClient) GetDevices(ctx context.Context, in *msg.DeviceFilter
 }
 
 type BoxControll_GetDevicesClient interface {
-	Recv() (*msg.Device, error)
+	Recv() (*device.Device, error)
 	grpc.ClientStream
 }
 
@@ -105,15 +106,15 @@ type boxControllGetDevicesClient struct {
 	grpc.ClientStream
 }
 
-func (x *boxControllGetDevicesClient) Recv() (*msg.Device, error) {
-	m := new(msg.Device)
+func (x *boxControllGetDevicesClient) Recv() (*device.Device, error) {
+	m := new(device.Device)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
 	return m, nil
 }
 
-func (c *boxControllClient) OnUpdate(ctx context.Context, in *msg.UpdateFilter, opts ...grpc.CallOption) (BoxControll_OnUpdateClient, error) {
+func (c *boxControllClient) OnUpdate(ctx context.Context, in *filters.UpdateFilter, opts ...grpc.CallOption) (BoxControll_OnUpdateClient, error) {
 	stream, err := grpc.NewClientStream(ctx, &_BoxControll_serviceDesc.Streams[2], c.cc, "/BoxControll/OnUpdate", opts...)
 	if err != nil {
 		return nil, err
@@ -129,7 +130,7 @@ func (c *boxControllClient) OnUpdate(ctx context.Context, in *msg.UpdateFilter, 
 }
 
 type BoxControll_OnUpdateClient interface {
-	Recv() (*msg.Update, error)
+	Recv() (*device.Update, error)
 	grpc.ClientStream
 }
 
@@ -137,16 +138,16 @@ type boxControllOnUpdateClient struct {
 	grpc.ClientStream
 }
 
-func (x *boxControllOnUpdateClient) Recv() (*msg.Update, error) {
-	m := new(msg.Update)
+func (x *boxControllOnUpdateClient) Recv() (*device.Update, error) {
+	m := new(device.Update)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
 	return m, nil
 }
 
-func (c *boxControllClient) StateUpdate(ctx context.Context, in *msg.UpdateReq, opts ...grpc.CallOption) (*msg.UpdateRes, error) {
-	out := new(msg.UpdateRes)
+func (c *boxControllClient) StateUpdate(ctx context.Context, in *device.UpdateReq, opts ...grpc.CallOption) (*device.UpdateRes, error) {
+	out := new(device.UpdateRes)
 	err := grpc.Invoke(ctx, "/BoxControll/StateUpdate", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
@@ -157,10 +158,10 @@ func (c *boxControllClient) StateUpdate(ctx context.Context, in *msg.UpdateReq, 
 // Server API for BoxControll service
 
 type BoxControllServer interface {
-	GetBoxes(*msg.BoxFilter, BoxControll_GetBoxesServer) error
-	GetDevices(*msg.DeviceFilter, BoxControll_GetDevicesServer) error
-	OnUpdate(*msg.UpdateFilter, BoxControll_OnUpdateServer) error
-	StateUpdate(context.Context, *msg.UpdateReq) (*msg.UpdateRes, error)
+	GetBoxes(*filters.BoxFilter, BoxControll_GetBoxesServer) error
+	GetDevices(*filters.DeviceFilter, BoxControll_GetDevicesServer) error
+	OnUpdate(*filters.UpdateFilter, BoxControll_OnUpdateServer) error
+	StateUpdate(context.Context, *device.UpdateReq) (*device.UpdateRes, error)
 }
 
 func RegisterBoxControllServer(s *grpc.Server, srv BoxControllServer) {
@@ -168,7 +169,7 @@ func RegisterBoxControllServer(s *grpc.Server, srv BoxControllServer) {
 }
 
 func _BoxControll_GetBoxes_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(msg.BoxFilter)
+	m := new(filters.BoxFilter)
 	if err := stream.RecvMsg(m); err != nil {
 		return err
 	}
@@ -176,7 +177,7 @@ func _BoxControll_GetBoxes_Handler(srv interface{}, stream grpc.ServerStream) er
 }
 
 type BoxControll_GetBoxesServer interface {
-	Send(*msg.Box) error
+	Send(*device.Box) error
 	grpc.ServerStream
 }
 
@@ -184,12 +185,12 @@ type boxControllGetBoxesServer struct {
 	grpc.ServerStream
 }
 
-func (x *boxControllGetBoxesServer) Send(m *msg.Box) error {
+func (x *boxControllGetBoxesServer) Send(m *device.Box) error {
 	return x.ServerStream.SendMsg(m)
 }
 
 func _BoxControll_GetDevices_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(msg.DeviceFilter)
+	m := new(filters.DeviceFilter)
 	if err := stream.RecvMsg(m); err != nil {
 		return err
 	}
@@ -197,7 +198,7 @@ func _BoxControll_GetDevices_Handler(srv interface{}, stream grpc.ServerStream) 
 }
 
 type BoxControll_GetDevicesServer interface {
-	Send(*msg.Device) error
+	Send(*device.Device) error
 	grpc.ServerStream
 }
 
@@ -205,12 +206,12 @@ type boxControllGetDevicesServer struct {
 	grpc.ServerStream
 }
 
-func (x *boxControllGetDevicesServer) Send(m *msg.Device) error {
+func (x *boxControllGetDevicesServer) Send(m *device.Device) error {
 	return x.ServerStream.SendMsg(m)
 }
 
 func _BoxControll_OnUpdate_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(msg.UpdateFilter)
+	m := new(filters.UpdateFilter)
 	if err := stream.RecvMsg(m); err != nil {
 		return err
 	}
@@ -218,7 +219,7 @@ func _BoxControll_OnUpdate_Handler(srv interface{}, stream grpc.ServerStream) er
 }
 
 type BoxControll_OnUpdateServer interface {
-	Send(*msg.Update) error
+	Send(*device.Update) error
 	grpc.ServerStream
 }
 
@@ -226,12 +227,12 @@ type boxControllOnUpdateServer struct {
 	grpc.ServerStream
 }
 
-func (x *boxControllOnUpdateServer) Send(m *msg.Update) error {
+func (x *boxControllOnUpdateServer) Send(m *device.Update) error {
 	return x.ServerStream.SendMsg(m)
 }
 
 func _BoxControll_StateUpdate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(msg.UpdateReq)
+	in := new(device.UpdateReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -243,7 +244,7 @@ func _BoxControll_StateUpdate_Handler(srv interface{}, ctx context.Context, dec 
 		FullMethod: "/BoxControll/StateUpdate",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BoxControllServer).StateUpdate(ctx, req.(*msg.UpdateReq))
+		return srv.(BoxControllServer).StateUpdate(ctx, req.(*device.UpdateReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }

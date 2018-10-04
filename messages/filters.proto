@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "github.com/roderm/audio-panel-protobuf/go/msg";
+option go_package = "github.com/roderm/audio-panel-protobuf/go/msg/filters";
 
 import "messages/basetypes.proto";
 

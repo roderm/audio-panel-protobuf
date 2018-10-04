@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "github.com/roderm/audio-panel-protobuf/go/msg";
+option go_package = "github.com/roderm/audio-panel-protobuf/go/msg/device";
 
 import "messages/basetypes.proto";
 
@@ -31,7 +31,10 @@ message Property {
 }
 
 message PropertyUpdate {
-
+    string BoxIdentifier = 1;
+    string DeviceIdentifier = 2;
+    string ItemIdentifier = 3;
+    Property State = 4;
 }
 message StateUpdate {
     PropertyUpdate Prop = 1;

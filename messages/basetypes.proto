@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+option go_package = "github.com/roderm/audio-panel-protobuf/go/msg/basetypes";
+
 enum UpdateType {
     NEW = 0;
     REMOVED = 1;
