@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+import "messages/device.proto";
+import "messages/filters.proto";
+
+option go_package = "github.com/roderm/audio-panel-protobuf/go/box_controll";
+option java_package = "com.xiexie.roman.audiopanel";
+option java_outer_classname = "BoxControl";
+
+service BoxControll {
+    rpc GetBoxes(BoxFilter) returns(stream Box);
+    rpc GetDevices(DeviceFilter) returns(stream Device);
+    rpc OnUpdate(UpdateFilter) returns(stream Update);
+    rpc StateUpdate(UpdateReq) returns(UpdateRes);
+}
